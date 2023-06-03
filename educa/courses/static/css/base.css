@@ -307,3 +307,16 @@ ul#course-modules li:hover {
     padding-left:0;
     padding-right:0;
 }
+
+/* Extra css */
+
+input[type=checkbox] {
+    border:1px solid #ccc;
+    border-bottom:3px solid #ccc;
+    padding:8px 12px;
+    font-size:16px;
+    font-family:'Roboto', sans-serif;
+    width: 10px;
+    float:left;
+    clear:both;
+}
