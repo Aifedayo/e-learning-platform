@@ -26,7 +26,7 @@ class OwnerCourseMixin(OwnerMixin, LoginRequiredMixin, PermissionRequiredMixin):
 
 
 class OwnerCourseEditMixin(OwnerCourseMixin, OwnerEditMixin):
-    template_name = 'courses/manage/courseform.html'
+    template_name = 'courses/manage/course/form.html'
 
 
 class ManageCourseListView(OwnerCourseMixin, ListView):
@@ -34,7 +34,9 @@ class ManageCourseListView(OwnerCourseMixin, ListView):
     permission_required = 'courses.view_course'
 
 
-class CourseCreateView(OwnerCourseMixin, CreateView):
+class CourseCreateView(OwnerCourseEditMixin, CreateView):
+    fields = ['subject', 'title', 'overview']
+    exclude = ['slug']
     permission_required = 'courses.add_course'
 
 
