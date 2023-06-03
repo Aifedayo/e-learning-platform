@@ -1,13 +1,27 @@
-from typing import Any
-from django.db.models.query import QuerySet
+from django.urls import reverse_lazy
 from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 from .models import Course
 
 
-class ManageCourseListView(ListView):
-    model = Course
-    template_name = 'courses/manage/course/list.html'
-
+class OwnerMixin(object):
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get.queryset()
         return qs.filter(owner=self.request.user)
+    
+
+class OwnerEditMixin(object):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class OwnerCourseMixin(OwnerMixin):
+    model = Course
+    fields = ['subject', 'title', 'slug', 'overview']
+    success_url = reverse_lazy('manage_course_list')
+
+
+class ManageCourseListView(OwnerCourseMixin, ListView):
+    template_name = 'courses/manage/course/list.html'
